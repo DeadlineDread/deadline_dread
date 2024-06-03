@@ -17,23 +17,14 @@ public class PlayerController : MonoBehaviour
         if (!isShooting)
         {
             animator.SetBool("isWalk", isWalking);
-            if (isWalking)
-            {
-                wasWalkingBeforeShooting = true;
-            }
         }
 
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         {
             StartCoroutine(Shoot());
         }
 
-        if (animator.GetBool("isWalk"))
-        {
-            Debug.Log("Walk");
-        }
-
-        else
+        if(!isWalking)
         {
             animator.SetTrigger("isIdle");
         }
@@ -42,15 +33,17 @@ public class PlayerController : MonoBehaviour
     IEnumerator Shoot()
     {
         isShooting = true;
-        animator.SetTrigger("isShoot");
-        Debug.Log("Shooting");
+        while (Input.GetMouseButton(0))
+        {
+            animator.SetTrigger("isShoot");
+            Debug.Log("Shooting");
 
-        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
-
+            yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        }
         isShooting = false;
-        animator.SetBool("isWalk", wasWalkingBeforeShooting);
 
-        Debug.Log("shoot");
+        animator.SetTrigger("isIdle");
+        Debug.Log("Shoot finished");
     }
 }
 
