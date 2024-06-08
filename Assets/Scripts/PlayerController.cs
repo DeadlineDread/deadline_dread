@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
             rb.AddForce(firePoint.forward * 1000f);
 
             // 발사 애니메이션이 끝날 때까지 대기
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1.3f);
 
             if (!Input.GetMouseButton(0))
             {
