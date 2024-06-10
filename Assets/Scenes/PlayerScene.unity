@@ -238,11 +238,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 471565773}
-  - component: {fileID: 471565774}
   - component: {fileID: 471565775}
+  - component: {fileID: 471565774}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Enemy
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -276,6 +276,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  animator: {fileID: 0}
+  player: {fileID: 0}
+  atttackRange: 2
+  detectionRange: 10
+  timeBetweenAttacks: 2
 --- !u!143 &471565775
 CharacterController:
   m_ObjectHideFlags: 0
@@ -914,6 +919,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 95090565265420528, guid: 43b3bfc3c2f2ff146a8d85e63d0a4e26, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 6551c6893b11b1849b9b424d77155f64, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1323,8 +1332,8 @@ SceneRoots:
   - {fileID: 1659101654}
   - {fileID: 883644691}
   - {fileID: 1375162818}
+  - {fileID: 767804886}
+  - {fileID: 1930916427}
   - {fileID: 505721732}
   - {fileID: 1059579327}
-  - {fileID: 1930916427}
-  - {fileID: 767804886}
   - {fileID: 471565773}
