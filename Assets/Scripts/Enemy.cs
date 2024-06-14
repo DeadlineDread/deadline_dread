@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     public float attackRange = 2f; // 공격 가능한 범위
     public float detectionRange = 10f; // 플레이어 감지 범위
     public float timeBetweenAttacks = 0.05f; // 공격 간격
+    public int attackDamage = 15;   // 공격 데미지
     public int health = 100; // 체력
     private float attackTimer; // 다음 공격까지의 시간을 추적
     private bool isDead = false; // 적이 죽었는지 여부
@@ -83,6 +84,9 @@ public class Enemy : MonoBehaviour
             animator.SetInteger("AttackIndex", attackIndex); // AttackIndex 파라미터에 랜덤한 값을 설정하여 랜덤한 공격 애니메이션을 재생
             animator.SetTrigger("isAttack");
             attackTimer = timeBetweenAttacks; // 다음 공격을 위해 타이머 재설정
+
+            // 플레이어에게 데미지 입힘
+            player.GetComponent<PlayerHealth>().TakeDamage(attackDamage);
         }
         attackTimer -= Time.deltaTime; // 타이머 감소
     }

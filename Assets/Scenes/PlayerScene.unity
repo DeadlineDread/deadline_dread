@@ -187,6 +187,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 29ae191874be0004db3b7ddb989381f4, type: 2}
+    - target: {fileID: 9500000, guid: fcb334eb247ae3e488abb081c847cf09, type: 3}
+      propertyPath: m_WarningMessage
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -195,11 +199,6 @@ PrefabInstance:
 --- !u!4 &248881911 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400060, guid: fcb334eb247ae3e488abb081c847cf09, type: 3}
-  m_PrefabInstance: {fileID: 248881910}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &248881912 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 9500000, guid: fcb334eb247ae3e488abb081c847cf09, type: 3}
   m_PrefabInstance: {fileID: 248881910}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &321212827
@@ -284,6 +283,7 @@ MonoBehaviour:
   attackRange: 3
   detectionRange: 20
   timeBetweenAttacks: 1
+  attackDamage: 50
   health: 100
 --- !u!143 &471565775
 CharacterController:
@@ -528,6 +528,7 @@ GameObject:
   - component: {fileID: 1059579326}
   - component: {fileID: 1059579325}
   - component: {fileID: 1059579328}
+  - component: {fileID: 1059579329}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -606,9 +607,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ca6735e16255534596b266a79b935af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 248881912}
+  animator: {fileID: 1580550135}
   firePoint: {fileID: 321212828}
   bulletPrefab: {fileID: 251010930255209538, guid: 90256ec5728bfaa4ea9851191f3828a1, type: 3}
+--- !u!114 &1059579329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059579324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fe653402bd95a7419a4ebd1762b1fe6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  animator: {fileID: 1580550135}
 --- !u!1 &1375162816
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,6 +718,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!95 &1580550135 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 9500000, guid: fcb334eb247ae3e488abb081c847cf09, type: 3}
+  m_PrefabInstance: {fileID: 248881910}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1618534605 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4932267959246028, guid: 43b3bfc3c2f2ff146a8d85e63d0a4e26, type: 3}
