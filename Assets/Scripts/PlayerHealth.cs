@@ -1,12 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 100;
-    private int currentHealth;
-    public Animator animator;
+    public int currentHealth;
 
     void Start()
     {
@@ -24,8 +22,8 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
-        animator.SetTrigger("isDead");
         // 죽음 처리 로직 (게임 오버, 재시작 등)
         // 게임 오버 창 띄우기
+        return;
     }
 }

@@ -14,13 +14,13 @@ public class BulletScript : MonoBehaviour {
 	public GameObject bloodEffect;
 	[Tooltip("Put Weapon layer and Player layer to ignore bullet raycast.")]
 	public LayerMask ignoreLayer;
-
-	/*
+    public int attackDamage = 20;
+    /*
 	* Uppon bullet creation with this script attatched,
 	* bullet creates a raycast which searches for corresponding tags.
 	* If raycast finds somethig it will create a decal of corresponding tag.
 	*/
-	void Update () {
+    void Update () {
 
 		if(Physics.Raycast(transform.position, transform.forward,out hit, maxDistance, ~ignoreLayer)){
 			if(decalHitWall){
@@ -29,7 +29,14 @@ public class BulletScript : MonoBehaviour {
 					Destroy(gameObject);
 				}
 				if(hit.transform.tag == "Dummie"){
-					Instantiate(bloodEffect, hit.point, Quaternion.LookRotation(hit.normal));
+                    Instantiate(bloodEffect, hit.point, Quaternion.LookRotation(hit.normal));
+
+                    // 적 스크립트에 데미지를 주기 위한 코드 추가
+                    Enemy enemy = hit.transform.GetComponent<Enemy>();
+                    if (enemy != null)
+                    {
+                        enemy.TakeDamage(attackDamage);
+                    }
 					Destroy(gameObject);
 				}
 			}		
