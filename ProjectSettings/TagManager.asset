@@ -4,7 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Enemy
+  - Weapon
+  - SecondCamera
+  - BulletSpawn
+  - LevelPart
+  - Dummie
+  - Ground
   layers:
   - Default
   - TransparentFX
