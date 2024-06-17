@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public float attackRange = 2f; // 공격 가능한 범위
     public float detectionRange = 10f; // 플레이어 감지 범위
     public float timeBetweenAttacks = 0.5f; // 공격 간격 (조정 가능)
+    public float moveSpeed = 1f;
     public int attackDamage = 15; // 공격 데미지
     public int health = 100; // 체력
     private float attackTimer; // 다음 공격까지의 시간을 추적
@@ -85,7 +86,7 @@ public class Enemy : MonoBehaviour
 
     void RunTowardsPlayer()
     {
-        if (isGetHit) // 적이 사망하거나 피격당했으면 아무 것도 하지 않음
+        if (isGetHit) // 적이 피격당했으면 아무 것도 하지 않음
             return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
@@ -101,12 +102,14 @@ public class Enemy : MonoBehaviour
             isRun = true;
             animator.SetBool("isRun", isRun); // 이동 애니메이션 활성화
             animator.ResetTrigger("isRoar"); // roar 트리거 리셋
-            Vector3 moveDirection = (player.position - transform.position).normalized;
-            rb.MovePosition(transform.position + moveDirection * Time.deltaTime * 6f); // 플레이어 쪽으로 이동
+
+            // 플레이어 쪽으로 부드럽게 이동
             Vector3 targetPosition = new Vector3(player.position.x, transform.position.y, player.position.z); // x, z 축 고정
             transform.LookAt(targetPosition); // 플레이어를 바라봄
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * moveSpeed); // 부드러운 이동
         }
     }
+
 
     void AttackPlayer()
     {
