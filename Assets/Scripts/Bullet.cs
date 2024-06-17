@@ -19,6 +19,7 @@ public class Bullet : MonoBehaviour
         if (enemy != null)
         {
             // 적의 체력을 감소시킴
+            collision.gameObject.GetComponent<Enemy>().TakeDamage(damage);
             enemy.TakeDamage(damage);
         }
 
