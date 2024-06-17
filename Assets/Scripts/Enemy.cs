@@ -42,22 +42,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay(Collision collision)
-    {
-        if (isDead) // 적이 죽었으면 아무 것도 하지 않음
-            return;
-
-        // 충돌한 객체가 플레이어인지 확인
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            if (attackTimer <= 0f)
-            {
-                AttackPlayer(); // 공격 실행
-                attackTimer = timeBetweenAttacks; // 다음 공격을 위해 타이머 재설정
-            }
-        }
-    }
-
     void Update()
     {
         if (isDead) // 적이 죽었으면 아무 것도 하지 않음
@@ -84,6 +68,11 @@ public class Enemy : MonoBehaviour
             animator.SetTrigger("isIdle"); // 대기 애니메이션 활성화
         }
 
+        if (distanceToPlayer <= attackRange && attackTimer <= 0f) // 공격 범위 안에 있고 공격 타이머가 만료되었을 때
+        {
+            AttackPlayer(); // 공격 실행
+            attackTimer = timeBetweenAttacks; // 다음 공격을 위해 타이머 재설정
+        }
         attackTimer -= Time.deltaTime; // 타이머 감소
     }
 
@@ -148,7 +137,9 @@ public class Enemy : MonoBehaviour
         // 플레이어에게 데미지 입힘
         player.GetComponent<PlayerHealth>().TakeDamage(attackDamage);
 
-        EndAttack(); // 공격 애니메이션 종료
+        // 공격이 끝나면 다시 공격할 수 있도록
+        attackTimer = 0f; // 공격 타이머를 즉시 0으로 설정하여 다음 공격 준비
+        AttackPlayer(); // 공격을 다시 시작
     }
 
     public void TakeDamage(int damage)

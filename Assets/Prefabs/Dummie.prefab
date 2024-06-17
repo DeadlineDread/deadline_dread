@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1685588478263771882}
-  - component: {fileID: 3839768332807838893}
   - component: {fileID: 6687847951463508773}
   - component: {fileID: 5420605176871030030}
+  - component: {fileID: 3839768332807838893}
   m_Layer: 0
   m_Name: Dummie
   m_TagString: Dummie
@@ -29,31 +29,12 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 20}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4783098500123853257}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
---- !u!114 &3839768332807838893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6843209796789672104}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fb0410931c129348b5ab1c6fe912cd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 4837054277909294581}
-  player: {fileID: 0}
-  attackRange: 1.5
-  detectionRange: 20
-  timeBetweenAttacks: 2
-  attackDamage: 50
-  health: 100
 --- !u!136 &6687847951463508773
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -73,8 +54,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.25
-  m_Height: 1.75
+  m_Radius: 0.3
+  m_Height: 1.7
   m_Direction: 1
   m_Center: {x: -0, y: 0.9, z: 0}
 --- !u!54 &5420605176871030030
@@ -85,7 +66,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6843209796789672104}
   serializedVersion: 4
-  m_Mass: 50
+  m_Mass: 60
   m_Drag: 0
   m_AngularDrag: 180
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -104,6 +85,25 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &3839768332807838893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6843209796789672104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fb0410931c129348b5ab1c6fe912cd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4837054277909294581}
+  player: {fileID: 0}
+  attackRange: 1.3
+  detectionRange: 20
+  timeBetweenAttacks: 2
+  attackDamage: 50
+  health: 100
 --- !u!1001 &4787747935308995845
 PrefabInstance:
   m_ObjectHideFlags: 0
