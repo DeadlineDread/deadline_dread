@@ -767,8 +767,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe653402bd95a7419a4ebd1762b1fe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 800
+  maxHealth: 200
   currentHealth: 0
+  fadeOutDuration: 1.5
+  gameOverSceneName: GameOver
 --- !u!1 &1439078899
 GameObject:
   m_ObjectHideFlags: 0

@@ -79,8 +79,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator StartRunningAfterRoar()
     {
-        yield return new WaitForSeconds(0.8f); // 특정 시간만큼 대기
-        isRun = true;
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length); // 특정 시간만큼 대기
         RunTowardsPlayer(); // 플레이어 쪽으로 달려들기
     }
 
