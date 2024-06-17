@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using UnityEngine.UIElements;
 
 public class Enemy : MonoBehaviour
 {
@@ -35,15 +34,11 @@ public class Enemy : MonoBehaviour
         if (isDead) // 적이 죽었으면 아무 것도 하지 않음
             return;
 
-        // 충돌한 객체가 플레이어인지 확인
-        if (collision.gameObject.CompareTag("Player"))
+        // 발사체와의 충돌 감지
+        if (collision.gameObject.CompareTag("Bullet"))
         {
-            // 공격 타이머가 만료되면 실행
-            if (attackTimer <= 0f)
-            {
-                AttackPlayer(); // 공격 실행
-                attackTimer = timeBetweenAttacks; // 다음 공격을 위해 타이머 재설정
-            }
+            TakeDamage(collision.gameObject.GetComponent<Bullet>().damage);
+            Destroy(collision.gameObject); // 발사체 파괴
         }
     }
 
@@ -55,10 +50,13 @@ public class Enemy : MonoBehaviour
         // 충돌한 객체가 플레이어인지 확인
         if (collision.gameObject.CompareTag("Player"))
         {
-            GetHit(); // 피격 애니메이션 재생
+            if (attackTimer <= 0f)
+            {
+                AttackPlayer(); // 공격 실행
+                attackTimer = timeBetweenAttacks; // 다음 공격을 위해 타이머 재설정
+            }
         }
     }
-
 
     void Update()
     {
@@ -70,7 +68,7 @@ public class Enemy : MonoBehaviour
         if (isGetHit) // 적이 피격당했으면 아무 것도 하지 않음
             return;
 
-        else if (distanceToPlayer <= detectionRange) // 플레이어가 감지 범위 안에 있으면
+        if (distanceToPlayer <= detectionRange) // 플레이어가 감지 범위 안에 있으면
         {
             // 현재 roar 애니메이션이 재생 중이 아니라면 roar 애니메이션 실행
             if (!animator.GetCurrentAnimatorStateInfo(0).IsName("roar"))
@@ -106,17 +104,18 @@ public class Enemy : MonoBehaviour
         if (distanceToPlayer <= attackRange)
         {
             isRun = false;
-            animator.SetBool("isRun", false); // 이동 애니메이션 비활성화
+            animator.SetBool("isRun", isRun); // 이동 애니메이션 비활성화
             AttackPlayer(); // 공격 실행
         }
         else
         {
             isRun = true;
-            animator.SetBool("isRun", true); // 이동 애니메이션 활성화
+            animator.SetBool("isRun", isRun); // 이동 애니메이션 활성화
             animator.ResetTrigger("isRoar"); // roar 트리거 리셋
             Vector3 moveDirection = (player.position - transform.position).normalized;
             rb.MovePosition(transform.position + moveDirection * Time.deltaTime * 6f); // 플레이어 쪽으로 이동
-            transform.LookAt(player); // 플레이어를 바라봄
+            Vector3 targetPosition = new Vector3(player.position.x, transform.position.y, player.position.z); // x, z 축 고정
+            transform.LookAt(targetPosition); // 플레이어를 바라봄
         }
     }
 
@@ -171,10 +170,10 @@ public class Enemy : MonoBehaviour
 
     void GetHit()
     {
-        if(isRun)
+        if (isRun)
         {
             animator.SetBool("isRun", false);
-        }   
+        }
         isGetHit = true; // 피격 상태로 설정
         animator.SetTrigger("isGetHit"); // 피격 애니메이션 재생
         Debug.Log("GetHit");
@@ -183,17 +182,20 @@ public class Enemy : MonoBehaviour
 
     IEnumerator ResetHit()
     {
-        yield return new WaitForSeconds(1f); // 현재 재생 중인 애니메이션의 길이만큼 대기
+        yield return new WaitForSeconds(0.5f); // 현재 재생 중인 애니메이션의 길이만큼 대기
         isGetHit = false; // 피격 상태 해제
     }
 
     void Die()
     {
-        StopAllCoroutines(); // 모든 코루틴 중지
         isDead = true; // 죽음 상태로 설정
         Debug.Log("Dead");
+        animator.SetBool("isRun", false);
+        StopAllCoroutines(); // 모든 코루틴 중지
         animator.SetBool("isDead", true); // 죽음 애니메이션 재생
         rb.isKinematic = true; // 사망 후 물리 계산 멈춤
+        GetComponent<CapsuleCollider>().enabled = false; // 콜라이더 비활성화
+        //Destroy(gameObject, 2f); // 2초 후에 객체 파괴
     }
 
     void EndAttack()
