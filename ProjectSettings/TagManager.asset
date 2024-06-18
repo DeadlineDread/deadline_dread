@@ -10,6 +10,7 @@ TagManager:
   - LevelPart
   - Dummie
   - Ground
+  - Bullet
   layers:
   - Default
   - TransparentFX
