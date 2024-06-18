@@ -8,6 +8,15 @@ public class BloodEffect : MonoBehaviour
     public Color baseColor = new Color(150f / 255f, 0f, 0f); // 기본 색상 (R: 150, G: 0, B: 0)
     public float baseAlpha = 0f; // 기본 투명도
 
+    void Start()
+    {
+        // playerHealth가 null이면 플레이어 객체에서 PlayerHealth 컴포넌트를 찾아 할당
+        if (playerHealth == null)
+        {
+            playerHealth = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHealth>();
+        }
+    }
+
     void Update()
     {
         UpdateBloodEffect();
@@ -15,6 +24,12 @@ public class BloodEffect : MonoBehaviour
 
     void UpdateBloodEffect()
     {
+        if (playerHealth == null)
+        {
+            Debug.LogWarning("PlayerHealth script is not assigned to BloodEffect script.");
+            return;
+        }
+
         float currentHealth = playerHealth.currentHealth; // 현재 플레이어의 체력 가져오기
 
         // 기본 색상과 투명도 설정
