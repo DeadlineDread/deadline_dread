@@ -78,7 +78,7 @@ private bool canDetectCollision = true;
         set { sceneNameToLoad = value; }
     }
     IEnumerator delay(){
-        yield return new WaitForSecondsRealtime(30f);
+        yield return new WaitForSecondsRealtime(300f);
         canDetectCollision = true;
     }
 }
