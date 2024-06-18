@@ -10,12 +10,17 @@ public class Enemy : MonoBehaviour
     public float timeBetweenAttacks = 0.5f; // 공격 간격 (조정 가능)
     public float moveSpeed = 1f;
     public int attackDamage = 15; // 공격 데미지
-    public int health = 100; // 체력
+    public int maxHealth = 100; // 체력
+    public int currentHealth = 0;
     private float attackTimer; // 다음 공격까지의 시간을 추적
     private bool isDead = false; // 적이 죽었는지 여부
     private bool isGetHit = false; // 적이 피격당했는지 여부
     private bool isRun = false;
+    private bool isRoar = false;
     private Rigidbody rb; // Rigidbody 컴포넌트
+
+    // 체력바 오브젝트
+    public EnemyHealthBar healthBar;
 
     void Start()
     {
@@ -25,8 +30,23 @@ public class Enemy : MonoBehaviour
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player").transform; // 태그로 플레이어 오브젝트를 찾아 할당
 
-        rb = GetComponent<Rigidbody>(); // Rigidbody 컴포넌트 가져오기
+        // player를 찾는 과정에서 null인 경우 예외 처리
+        if (player == null)
+        {
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            if (playerObject != null)
+                player = playerObject.transform;
+        }
 
+        currentHealth = maxHealth;
+
+        if (healthBar != null)
+        {
+            healthBar.SetMaxHealth(maxHealth);
+        }
+
+
+        rb = GetComponent<Rigidbody>(); // Rigidbody 컴포넌트 가져오기
         attackTimer = timeBetweenAttacks; // 초기화: 공격 타이머를 설정된 간격으로 초기화
     }
 
@@ -81,11 +101,12 @@ public class Enemy : MonoBehaviour
     {
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length); // 특정 시간만큼 대기
         RunTowardsPlayer(); // 플레이어 쪽으로 달려들기
+        isRoar = true;
     }
 
     void RunTowardsPlayer()
     {
-        if (isGetHit) // 적이 피격당했으면 아무 것도 하지 않음
+        if (isGetHit && isRoar) // 적이 피격당했으면 아무 것도 하지 않음
             return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
@@ -101,6 +122,7 @@ public class Enemy : MonoBehaviour
             isRun = true;
             animator.SetBool("isRun", isRun); // 이동 애니메이션 활성화
             animator.ResetTrigger("isRoar"); // roar 트리거 리셋
+            isRoar = true;
 
             // 플레이어 쪽으로 부드럽게 이동
             Vector3 targetPosition = new Vector3(player.position.x, transform.position.y, player.position.z); // x, z 축 고정
@@ -149,9 +171,14 @@ public class Enemy : MonoBehaviour
         if (isDead) // 적이 이미 죽었으면 아무 것도 하지 않음
             return;
 
-        health -= damage; // 적의 체력 감소
+        currentHealth -= damage; // 적의 체력 감소
 
-        if (health <= 0 && !isDead) // 적의 체력이 0 이하이고 아직 죽지 않았다면
+        if (healthBar != null)
+        {
+            healthBar.SetHealth(currentHealth, maxHealth); // 체력 바 업데이트
+        }
+
+        if (currentHealth <= 0 && !isDead) // 적의 체력이 0 이하이고 아직 죽지 않았다면
         {
             Die(); // 사망 처리
         }
@@ -185,6 +212,7 @@ public class Enemy : MonoBehaviour
         Debug.Log("Dead");
         animator.SetBool("isRun", false);
         StopAllCoroutines(); // 모든 코루틴 중지
+        healthBar.gameObject.SetActive(false);
         animator.SetBool("isDead", true); // 죽음 애니메이션 재생
         rb.isKinematic = true; // 사망 후 물리 계산 멈춤
         GetComponent<CapsuleCollider>().enabled = false; // 콜라이더 비활성화
